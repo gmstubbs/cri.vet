@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Emergency Drug Label</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #283593;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header img {
+            max-width: 150px;
+            filter: brightness(0) invert(1); /* Change color to white */
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+            transition: transform 0.3s;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+        }
+
+        .form-group label {
+            font-weight: 600;
+        }
+
+        .form-control {
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .radio-toolbar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .radio-toolbar input[type="radio"] {
+            display: none;
+        }
+
+        .radio-toolbar label {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .radio-toolbar input[type="radio"]:checked + label {
+            background-color: #283593;
+            color: white;
+            border-color: #283593;
+        }
+
+        .radio-toolbar label:hover {
+            background-color: #e3f2fd;
+        }
+
+        .btn {
+            background-color: #283593;
+            color: white;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1a237e;
+            transform: translateY(-3px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #283593;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        footer {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="static/images/CRIvet_Logo.svg" alt="CRI Vet Logo">
+    </div>
+    <div class="container">
+        <form id="labelForm" onsubmit="generateLabel(event)" class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ptName">Patient Name</label>
+                    <input id="ptName" type="text" name="ptName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="clName">Client Name</label>
+                    <input id="clName" type="text" name="clName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="ptID">Patient ID</label>
+                    <input id="ptID" type="text" name="ptID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input id="weight" name="weight" type="text" inputmode="decimal" pattern="[0-9]*(\.[0-9]+)?|[0-9]+\.[0-9]*" maxlength="6" required class="form-control" />
+                </div>
+                <div class="radio-toolbar">
+                    <input type="radio" id="none" name="codestatus" value="none" checked>
+                    <label for="none">UNK</label>
+                    <input type="radio" id="CPR" name="codestatus" value="CPR">
+                    <label for="CPR">CPR</label>
+                    <input type="radio" id="DNR" name="codestatus" value="DNR">
+                    <label for="DNR">DNR</label>
+                </div>
+                <input type="submit" name="generate" value="Generate Label" class="btn btn-block">
+            </div>
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>DRUG</th>
+                            <th>CONCENTRATION</th>
+                            <th>DOSE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EPI LOW</td>
+                            <td>1:1000 (1mg/mL)</td>
+                            <td>0.01mg/kg</td>
+                        </tr>
+                        <tr>
+                            <td>EPI HIGH</td>
+                            <td>1:1000 (1mg/mL)</td>
+                            <td>0.1mg/kg</td>
+                        </tr>
+                        <tr>
+                            <td>VASOPRESSIN</td>
+                            <td>20U/mL</td>
+                            <td>0.8U/kg</td>
+                        </tr>
+                        <tr>
+                            <td>ATROPINE</td>
+                            <td>0.4mg/mL</td>
+                            <td>0.04mg/kg</td>
+                        </tr>
+                        <tr>
+                            <td>LIDOCAINE</td>
+                            <td>2% (20mg/mL)</td>
+                            <td>2mg/kg</td>
+                        </tr>
+                        <tr>
+                            <td>NALOXONE</td>
+                            <td>0.4mg/mL</td>
+                            <td>0.04mg/kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <footer>
+                    Note: Lidocaine dose will <b>only</b> show on the label if Patient ID begins with the letters "CA"
+                </footer>
+            </div>
+        </form>
+    </div>
+    <script>
+        function roundDose(dose) {
+            return dose < 0.95 ? dose.toFixed(2) : dose.toFixed(1);
+        }
+
+        function generateLabel(event) {
+            event.preventDefault();
+            const form = document.getElementById('labelForm');
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+
+            const weight = parseFloat(formData.get('weight'));
+            const ptID = formData.get('ptID').toUpperCase();
+            const codestatus = formData.get('codestatus');
+            params.append('ptName', formData.get('ptName'));
+            params.append('clName', formData.get('clName'));
+            params.append('ptID', ptID);
+            params.append('weight', weight);
+            params.append('codestatus', codestatus === 'none' ? 'STATUS NEEDED' : codestatus);
+
+            // Perform dose calculations and convert to mL
+            params.append('epiLowDose', roundDose(0.01 * weight) + ' mL');
+            params.append('epiHighDose', roundDose(0.1 * weight) + ' mL');
+            params.append('vasoDose', roundDose(0.8 * weight / 20) + ' mL');
+            params.append('atroDose', roundDose(0.04 * weight / 0.4) + ' mL');
+            params.append('lidoDose', ptID.startsWith('CA') ? roundDose(2 * weight / 20) + ' mL' : '');
+            params.append('narcDose', roundDose(0.04 * weight / 0.4) + ' mL');
+
+            window.location.href = `Label.html?${params.toString()}`;
+        }
+    </script>  
+    <footer>
+        <div class="footerTxt" id="footerTxt">
+            <br><br>
+            CRI.vet makes no claims as to the accuracy of the information contained herein.
+            The user acknowledges and agrees that this Site and its calculators will be used only as a reference aid,
+            and that the information contained in the product is not intended to be (nor should it be used as) a substitute for the exercise of professional judgment.
+            Neither CRI.vet nor any other party involved in the preparation of this Site shall be liable for any damages
+            resulting in whole or part from any user's use of or reliance upon this Site or any material contained herein.
+        </div>
+    </footer>
+</body>
+</html>

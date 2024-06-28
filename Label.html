@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Emergency Drug Label</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 4in; /* Set fixed width for label size */
+            height: 100%;
+            max-height: 2.5in; /* Set fixed height for label size */
+            background-color: white;
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+        }
+
+        th, td {
+            padding: 2px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #283593;
+            color: white;
+            font-weight: 600;
+            height: 30px;
+        }
+
+        .largeFont {
+            font-size: 8pt;
+            font-weight: 700;
+        }
+
+        .medFont {
+            font-size: 7pt;
+            font-weight: 600;
+        }
+
+        .lightFont {
+            font-size: 6pt;
+            font-weight: 400;
+        }
+
+        .highlight {
+            font-size: 9pt;
+            font-weight: 700;
+            color: #d32f2f;
+        }
+
+        .info-cell {
+            text-align: left;
+            vertical-align: top;
+            line-height: 1.2; /* Decrease line height to reduce space */
+        }
+
+        .info-box {
+            padding-bottom: 5px;
+        }
+
+        .right-align {
+            text-align: right;
+        }
+
+        .center-align {
+            text-align: center;
+        }
+
+        tr.content-row {
+            height: calc((100% - 40px) / 6); /* Total height minus the height of the header row */
+        }
+
+        @media print {
+            @page {
+                margin: 0;
+                size: 4in 2.5in; /* Explicitly setting page size for label */
+            }
+
+            body, html {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                border: none;
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            table, th, td {
+                border: 1px solid #000;
+                padding: 2px;
+                font-size: 7pt;
+            }
+
+            .largeFont {
+                font-size: 8pt;
+            }
+
+            .medFont {
+                font-size: 7pt;
+            }
+
+            .lightFont {
+                font-size: 6pt;
+            }
+
+            .highlight {
+                font-size: 9pt;
+            }
+
+            tr.content-row {
+                height: calc((100% - 40px) / 6); /* Make sure rows are evenly spaced */
+            }
+        }
+    </style>
+</head>
+<body onload="populateLabel()">
+    <div class="container">
+        <table>
+            <tr>
+                <td class="info-cell" rowspan="7">
+                    <div class="info-box">
+                        <span id="ptName" class="largeFont"></span> <span id="clName" class="largeFont"></span><br>
+                        <span id="ptID" class="medFont right-align"></span><br>
+                        <span id="weight" class="medFont center-align"></span> kg<br>
+                        <span id="codestatus" class="highlight center-align"></span><br><br>
+                    </div>
+                    <span id="today" class="lightFont"></span>
+                </td>
+                <th class="medFont">DRUG</th>
+                <th class="medFont">DOSE</th>
+            </tr>
+            <tr class="content-row" id="lightBlue">
+                <td class="medFont">EPI LOW</td>
+                <td id="epiLowDose" class="medFont"></td>
+            </tr>
+            <tr class="content-row" id="lightGray">
+                <td class="medFont">EPI HIGH</td>
+                <td id="epiHighDose" class="medFont"></td>
+            </tr>
+            <tr class="content-row" id="lightBlue">
+                <td class="medFont">VASOPRESSIN</td>
+                <td id="vasoDose" class="medFont"></td>
+            </tr>
+            <tr class="content-row" id="lightGray">
+                <td class="medFont">ATROPINE</td>
+                <td id="atroDose" class="medFont"></td>
+            </tr>
+            <tr class="content-row" id="lightBlue" id="lidoRow">
+                <td class="medFont">LIDOCAINE</td>
+                <td id="lidoDose" class="medFont"></td>
+            </tr>
+            <tr class="content-row" id="lightGray">
+                <td class="medFont">NALOXONE</td>
+                <td id="narcDose" class="medFont"></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        function populateLabel() {
+            const params = new URLSearchParams(window.location.search);
+            
+            document.getElementById('ptName').innerText = params.get('ptName') || '';
+            document.getElementById('clName').innerText = params.get('clName') || '';
+            document.getElementById('ptID').innerText = params.get('ptID') || '';
+            document.getElementById('weight').innerText = params.get('weight') || '';
+            document.getElementById('codestatus').innerText = params.get('codestatus') || '';
+            document.getElementById('epiLowDose').innerText = params.get('epiLowDose') || '';
+            document.getElementById('epiHighDose').innerText = params.get('epiHighDose') || '';
+            document.getElementById('vasoDose').innerText = params.get('vasoDose') || '';
+            document.getElementById('atroDose').innerText = params.get('atroDose') || '';
+            document.getElementById('lidoDose').innerText = params.get('lidoDose') || '';
+            document.getElementById('narcDose').innerText = params.get('narcDose') || '';
+            document.getElementById('today').innerText = new Date().toLocaleDateString();
+        }
+    </script>
+</body>
+</html>
